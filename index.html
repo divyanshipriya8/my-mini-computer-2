@@ -1,62 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Mini Computer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Mini Computer - By Divyanshi</title>
 <style>
-body{font-family:Arial;background:#1a1a2e;color:white;text-align:center;padding:20px}
-.box{background:white;color:black;padding:20px;border-radius:15px;max-width:400px;margin:15px auto}
-input,button{padding:10px;margin:5px;border-radius:8px;border:1px solid #ccc;font-size:16px}
-button{background:#6c5ce7;color:white;border:none;cursor:pointer}
-h1{color:#ff9ff3}
+body{font-family:Arial;background:#ffeef5;text-align:center;padding:15px}
+h1{color:#d63384}
+.box{background:white;padding:15px;border-radius:15px;margin:12px auto;max-width:400px;box-shadow:0 2px 10px #f5b5cd}
+input,textarea{padding:10px;margin:5px;border:1px solid pink;border-radius:8px;width:80%}
+button{background:#ff4d8d;color:white;border:none;padding:10px 15px;border-radius:10px;margin:3px;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:300px;margin:auto}
+.cell{background:#fff0f5;border:2px solid pink;height:60px;font-size:28px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+img{width:100%;border-radius:10px;margin-top:8px}
 </style>
 </head>
 <body>
 <h1>💻 My Mini Computer</h1>
-<p>By Divyanshi Priya</p>
+<p>By Divyanshi Priya ❤️</p>
 
 <div class="box">
-<h2>🧮 Calculator</h2>
+<h3>🧮 Calculator</h3>
 <input id="a" type="number" placeholder="Pehla number">
 <input id="b" type="number" placeholder="Dusra number"><br>
 <button onclick="calc('+')">+</button>
 <button onclick="calc('-')">-</button>
 <button onclick="calc('*')">x</button>
 <button onclick="calc('/')">÷</button>
-<h3 id="res">Result: -</h3>
+<h2 id="res">Result: -</h2>
 </div>
 
 <div class="box">
-<h2>📝 My Notepad</h2>
-<input id="note" placeholder="Kuch likho..." style="width:80%">
+<h3>📝 Notepad</h3>
+<textarea id="note" rows="3" placeholder="Yahan likho..."></textarea><br>
 <button onclick="saveNote()">Save</button>
+<button onclick="document.getElementById('note').value=''">Clear</button>
 <p id="saved"></p>
 </div>
 
 <div class="box">
-<h2>🕐 Time</h2>
-<h3 id="clock"></h3>
-<button onclick="showTime()">Time Dekho</button>
+<h3>🎮 Tic-Tac-Toe</h3>
+<div class="grid" id="game"></div>
+<p id="win"></p>
+<button onclick="resetGame()">New Game</button>
+</div>
+
+<div class="box">
+<h3>✅ To-Do List</h3>
+<input id="task" placeholder="Kaam likho...">
+<button onclick="addTask()">Add</button>
+<ul id="list" style="text-align:left"></ul>
+</div>
+
+<div class="box">
+<h3>📸 My Gallery</h3>
+<p>Apni photo yahan daalo!</p>
+<input type="file" accept="image/*" onchange="showPic(event)">
+<img id="pic">
 </div>
 
 <script>
 function calc(op){
-let x=Number(document.getElementById('a').value);
-let y=Number(document.getElementById('b').value);
-let r=0;
-if(op=='+') r=x+y;
-if(op=='-') r=x-y;
-if(op=='*') r=x*y;
-if(op=='/') r=x/y;
+let x=parseFloat(document.getElementById('a').value);
+let y=parseFloat(document.getElementById('b').value);
+let r=op=='+'?x+y:op=='-'?x-y:op=='*'?x*y:x/y;
 document.getElementById('res').innerText="Result: "+r;
 }
-function saveNote(){
-let t=document.getElementById('note').value;
-document.getElementById('saved').innerText="Saved: "+t;
+function saveNote(){document.getElementById('saved').innerText="Saved! ❤️ "+document.getElementById('note').value}
+let turn='X', cells=Array(9).fill('');
+function draw(){
+document.getElementById('game').innerHTML=cells.map((c,i)=>`<div class='cell' onclick='play(${i})'>${c}</div>`).join('');
 }
-function showTime(){
-document.getElementById('clock').innerText=new Date().toLocaleString();
+function play(i){
+if(cells[i])return;
+cells[i]=turn;
+turn=turn=='X'?'O':'X';
+draw();
+check();
 }
-showTime();
+function check(){
+let w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+for(let p of w){if(cells[p[0]]&&cells[p[0]]==cells[p[1]]&&cells[p[1]]==cells[p[2]]){document.getElementById('win').innerText=cells[p[0]]+" Jeet Gaya! 🎉";return;}}
+}
+function resetGame(){cells=Array(9).fill('');document.getElementById('win').innerText='';draw();}
+draw();
+function addTask(){
+let t=document.getElementById('task').value;
+if(!t)return;
+let li=document.createElement('li');li.innerText=t+" ❤️";
+li.onclick=()=>li.remove();
+document.getElementById('list').appendChild(li);
+document.getElementById('task').value='';
+}
+function showPic(e){document.getElementById('pic').src=URL.createObjectURL(e.target.files[0]);}
 </script>
 </body>
 </html>
