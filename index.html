@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Mini Computer</title>
+<style>
+body{font-family:Arial;background:#1a1a2e;color:white;text-align:center;padding:20px}
+.box{background:white;color:black;padding:20px;border-radius:15px;max-width:400px;margin:15px auto}
+input,button{padding:10px;margin:5px;border-radius:8px;border:1px solid #ccc;font-size:16px}
+button{background:#6c5ce7;color:white;border:none;cursor:pointer}
+h1{color:#ff9ff3}
+</style>
+</head>
+<body>
+<h1>💻 My Mini Computer</h1>
+<p>By Divyanshi Priya</p>
+
+<div class="box">
+<h2>🧮 Calculator</h2>
+<input id="a" type="number" placeholder="Pehla number">
+<input id="b" type="number" placeholder="Dusra number"><br>
+<button onclick="calc('+')">+</button>
+<button onclick="calc('-')">-</button>
+<button onclick="calc('*')">x</button>
+<button onclick="calc('/')">÷</button>
+<h3 id="res">Result: -</h3>
+</div>
+
+<div class="box">
+<h2>📝 My Notepad</h2>
+<input id="note" placeholder="Kuch likho..." style="width:80%">
+<button onclick="saveNote()">Save</button>
+<p id="saved"></p>
+</div>
+
+<div class="box">
+<h2>🕐 Time</h2>
+<h3 id="clock"></h3>
+<button onclick="showTime()">Time Dekho</button>
+</div>
+
+<script>
+function calc(op){
+let x=Number(document.getElementById('a').value);
+let y=Number(document.getElementById('b').value);
+let r=0;
+if(op=='+') r=x+y;
+if(op=='-') r=x-y;
+if(op=='*') r=x*y;
+if(op=='/') r=x/y;
+document.getElementById('res').innerText="Result: "+r;
+}
+function saveNote(){
+let t=document.getElementById('note').value;
+document.getElementById('saved').innerText="Saved: "+t;
+}
+function showTime(){
+document.getElementById('clock').innerText=new Date().toLocaleString();
+}
+showTime();
+</script>
+</body>
+</html>
